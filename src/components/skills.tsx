@@ -7,7 +7,7 @@ import { SectionHeading } from "@/components/section-heading";
 const skills = [
   { title: "Frontend", icon: Code2, items: ["HTML", "CSS", "JavaScript", "TypeScript", "React", "Next.js"] },
   { title: "Styling & UI", icon: Palette, items: ["Tailwind CSS", "Responsive Design", "Accessible UI"] },
-  { title: "Backend & Data", icon: Database, items: ["Node.js", "MongoDB", "REST APIs"] },
+  { title: "Backend & Data", icon: Database, items: ["Node.js", "Express.js", "MongoDB", "REST APIs", "Authentication"] },
   { title: "Tools & Workflow", icon: GitBranch, items: ["Git", "GitHub", "VS Code", "Vercel"] },
   { title: "App Architecture", icon: Layers3, items: ["Reusable Components", "App Router", "State Management"] },
   { title: "Currently Exploring", icon: Bot, items: ["AI Automation", "AI Agents", "Emerging AI Tools"] }
