@@ -1,4 +1,4 @@
-<h1 align="center">👨‍💻 Mohosenat Jahan — Full-Stack Web Developer</h1>
+<h1 align="center">Mohosenat Jahan — Full-Stack Web Developer</h1>
 
 <p align="center">
   <img src="https://img.shields.io/badge/Full--Stack-Web%20Developer-A855F7?style=for-the-badge&labelColor=09090B" alt="Full-Stack Web Developer" />
@@ -24,11 +24,12 @@ I enjoy learning new technologies, solving development challenges, and turning i
 
 My goal is to create accessible, performant, and visually appealing applications while continuously improving my skills across frontend and backend development.
 
-- 💻 Interested in full-stack web development.
-- 🎨 Focused on responsive design and user experience.
-- ⚙️ Interested in building functional, data-driven web applications.
-- 📚 Always learning and exploring new technologies.
-- 🤖 Interested in AI automation and AI agents.
+- 💻 Passionate about full-stack web development.
+- 🎨 Focused on creating responsive and user-friendly interfaces.
+- 📚 Continuously learning and exploring new technologies.
+- 🤖 Exploring AI automation and AI agents.
+- 🧩 Enjoy solving problems and building practical web solutions.
+- 🚀 Turning ideas into functional applications through hands-on projects.
 
 ## ✨ Portfolio Features
 
@@ -138,7 +139,7 @@ To run this portfolio on your local machine:
 
 ## 📄 License
 
-This repository contains my personal developer portfolio. Please contact me before reusing substantial portions of its design or content.
+This project is created for my personal portfolio and professional presentation.
 
 ---
 
