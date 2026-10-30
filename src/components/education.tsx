@@ -62,6 +62,7 @@ export function Education() {
           kicker="Learning & Growth"
           title="Education and Learning Journey"
           description="My academic background and continuous learning journey in technology."
+          centered
         />
 
         <div className="mt-10 grid grid-cols-1 gap-6 lg:grid-cols-2 lg:gap-8">
