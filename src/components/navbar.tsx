@@ -28,12 +28,12 @@ export function Navbar() {
           onClick={closeMenu}
           className="group flex shrink-0 items-center gap-2.5"
         >
-          <span className="grid h-10 w-10 place-items-center rounded-xl bg-gradient-to-br from-[#9303C5] to-[#F472B6] text-sm font-black text-white shadow-lg shadow-purple-900/20">
+          <span className="grid h-10 w-10 place-items-center rounded-xl bg-gradient-to-r from-[#9303C5] to-[#D946EF] text-sm font-black text-white shadow-lg shadow-purple-900/20">
             MJ
           </span>
 
           <span className="text-sm font-semibold tracking-tight sm:text-base">
-            mohosenat<span className="gradient-text">.</span>
+            Mohosenat <span className="gradient-text">Jahan</span>
           </span>
         </Link>
 
@@ -61,7 +61,7 @@ export function Navbar() {
             href="/#contact"
             className="hidden items-center gap-1.5 rounded-full bg-gradient-to-r from-[#9303C5] to-[#D946EF] px-4 py-2.5 text-xs font-semibold text-white transition hover:-translate-y-0.5 sm:inline-flex"
           >
-            Let&apos;s talk
+            Hire me
             <ArrowUpRight size={14} />
           </Link>
 
