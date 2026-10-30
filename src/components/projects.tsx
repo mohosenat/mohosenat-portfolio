@@ -1,44 +1,173 @@
 "use client";
 
-import { motion } from "framer-motion";
+import Image from "next/image";
 import Link from "next/link";
-import { ArrowUpRight, Github, ExternalLink, MoveUpRight } from "lucide-react";
+import { motion } from "framer-motion";
+import {
+  ArrowRight,
+  ArrowUpRight,
+  ExternalLink,
+  Github,
+} from "lucide-react";
+
 import { SectionHeading } from "@/components/section-heading";
 import { projects } from "@/data/projects";
 
 export function Projects() {
   return (
-    <section id="projects" className="section-space scroll-mt-20">
+    <section
+      id="projects"
+      className="section-space scroll-mt-20"
+    >
       <div className="container-width">
-        <SectionHeading kicker="Selected work" title={<>Projects built with <span className="gradient-text">purpose.</span></>} description="Explore selected projects, the technologies I used, the challenges I worked through, and what I would improve next." />
-        <div className="grid gap-5 lg:grid-cols-2">
-          {projects.map((project, index) => {
-            const Icon = project.icon;
-            return (
-              <motion.article key={project.slug} initial={{ opacity: 0, y: 22 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: .15 }} transition={{ duration: .5, delay: index * .08 }} className={`gradient-border group flex flex-col overflow-hidden rounded-3xl bg-[var(--surface)] ${index === 0 ? "lg:col-span-2 lg:grid lg:grid-cols-[.8fr_1.2fr]" : ""}`}>
-                <Link href={`/projects/${project.slug}`} aria-label={`View ${project.name} project details`} className="relative flex min-h-[240px] items-center justify-center overflow-hidden bg-[#0b0711] p-8">
-                  <div className="soft-glow absolute inset-0 opacity-90 transition duration-500 group-hover:scale-125" />
-                  <div className="absolute inset-0 opacity-20" style={{ backgroundImage: "linear-gradient(rgba(255,255,255,.08) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.08) 1px, transparent 1px)", backgroundSize: "32px 32px" }} />
-                  <div className="relative grid h-24 w-24 place-items-center rounded-[1.7rem] border border-white/15 bg-white/[.04] text-[#e879f9] shadow-2xl shadow-purple-950/40 transition duration-500 group-hover:-translate-y-2 group-hover:rotate-3"><Icon size={42} strokeWidth={1.3} /></div>
-                  <span className="absolute left-5 top-5 text-xs tracking-[.2em] text-white/50">{project.number} / SELECTED PROJECT</span>
-                  <span className="absolute bottom-5 right-5 inline-flex items-center gap-2 text-xs font-medium text-white/75 group-hover:text-white">Explore project <MoveUpRight size={15} /></span>
-                </Link>
-                <div className="flex flex-1 flex-col p-6 sm:p-8">
-                  <p className="text-xs font-semibold uppercase tracking-[.15em] text-[#b026e8]">{project.label}</p>
-                  <h3 className="mt-2 text-2xl font-semibold">{project.name}</h3>
-                  <p className="mt-3 flex-1 text-sm leading-7 muted">{project.description}</p>
-                  <div className="mt-5 flex flex-wrap gap-2">{project.stack.map((item) => <span key={item} className="rounded-full border border-[var(--border)] px-3 py-1.5 text-xs muted">{item}</span>)}</div>
-                  <div className="mt-7 flex flex-wrap items-center gap-3">
-                    <Link href={`/projects/${project.slug}`} className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-[#9303C5] to-[#D946EF] px-4 py-2.5 text-xs font-semibold text-white transition hover:-translate-y-0.5">Project details <ArrowUpRight size={14} /></Link>
-                    {project.live && <a href={project.live} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-full border border-[var(--border)] px-4 py-2.5 text-xs font-semibold transition hover:border-[#9303C5] hover:text-[#b026e8]">Live demo <ExternalLink size={14} /></a>}
-                    <a href={project.repo} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-full border border-[var(--border)] px-4 py-2.5 text-xs font-semibold transition hover:border-[#9303C5] hover:text-[#b026e8]"><Github size={14} /> Source code <ArrowUpRight size={13} /></a>
+        <SectionHeading
+          kicker="Selected work"
+          title={
+            <>
+              Projects built with{" "}
+              <span className="gradient-text">purpose.</span>
+            </>
+          }
+          description="A selection of projects built through experimentation, problem-solving, and continuous learning."
+        />
+
+        {/* Project Cards */}
+        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          {projects.slice(0, 3).map((project, index) => (
+            <motion.article
+              key={project.slug}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.15 }}
+              transition={{
+                duration: 0.45,
+                delay: index * 0.08,
+              }}
+              className="group flex min-w-0 flex-col overflow-hidden rounded-2xl border border-[var(--border)] bg-[var(--surface)] transition-all duration-300 hover:-translate-y-1 hover:border-[#9303C5]/60 hover:shadow-lg hover:shadow-purple-950/10"
+            >
+              {/* Project Screenshot */}
+              <Link
+                href={`/projects/${project.slug}`}
+                aria-label={`View ${project.name} details`}
+                className="relative block aspect-[1.48/1] overflow-hidden border-b border-[var(--border)]"
+              >
+                <Image
+                  src={project.image}
+                  alt={`${project.name} website screenshot`}
+                  fill
+                  sizes="(max-width: 639px) 100vw, (max-width: 1023px) 50vw, 33vw"
+                  className="object-cover object-top transition-transform duration-500 group-hover:scale-[1.035]"
+                />
+
+                {/* Browser Dots */}
+                <div className="absolute left-4 top-4 z-10 flex gap-1.5">
+                  <span className="h-1.5 w-1.5 rounded-full bg-white/50" />
+                  <span className="h-1.5 w-1.5 rounded-full bg-white/50" />
+                  <span className="h-1.5 w-1.5 rounded-full bg-white/50" />
+                </div>
+
+                {/* Project Number */}
+                <span className="absolute right-3 top-3 z-10 rounded-full border border-white/20 bg-black/50 px-2.5 py-1.5 text-[9px] font-medium tracking-wider text-white backdrop-blur-sm">
+                  PROJECT / {project.number}
+                </span>
+              </Link>
+
+              {/* Project Information */}
+              <div className="flex flex-1 flex-col p-5">
+                <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#b026e8]">
+                  {project.label}
+                </p>
+
+                <h3 className="mt-3 text-xl font-semibold tracking-tight">
+                  {project.name}
+                </h3>
+
+                <p className="muted mt-3 min-h-[66px] text-sm leading-6">
+                  {project.description}
+                </p>
+
+                {/* Technology Stack */}
+                <div className="mt-4 flex flex-wrap gap-2">
+                  {project.stack.map((technology) => (
+                    <span
+                      key={technology}
+                      className="rounded-full border border-[var(--border)] bg-[var(--background)] px-2.5 py-1.5 text-[10px] font-medium transition-colors duration-200 hover:border-[#9303C5]/60 hover:text-[#b026e8]"
+                    >
+                      {technology}
+                    </span>
+                  ))}
+                </div>
+
+                {/* Footer Actions */}
+                <div className="mt-auto flex items-center justify-between gap-3 border-t border-[var(--border)] pt-4 mt-5">
+                  <Link
+                    href={`/projects/${project.slug}`}
+                    className="inline-flex min-w-0 items-center gap-1.5 text-xs font-semibold transition-colors hover:text-[#b026e8]"
+                  >
+                    <span>Project details</span>
+                    <ArrowUpRight
+                      size={15}
+                      className="shrink-0 text-[#b026e8]"
+                    />
+                  </Link>
+
+                  <div className="flex shrink-0 items-center gap-3">
+                    {/* GitHub */}
+                    <a
+                      href={project.repo}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={`${project.name} source code on GitHub`}
+                      title="View source code"
+                      className="grid h-9 w-9 place-items-center rounded-full border border-[var(--border)] text-current transition-all hover:border-[#9303C5] hover:bg-[#9303C5]/10 hover:text-[#b026e8]"
+                    >
+                      <Github size={16} strokeWidth={1.7} />
+                    </a>
+
+                    {/* Live Demo: consistent position on every card */}
+                    {project.live ? (
+                      <a
+                        href={project.live}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label={`${project.name} live demo`}
+                        title="View live demo"
+                        className="grid h-9 w-9 place-items-center rounded-full border border-[var(--border)] text-current transition-all hover:border-[#9303C5] hover:bg-[#9303C5]/10 hover:text-[#b026e8]"
+                      >
+                        <ExternalLink size={16} strokeWidth={1.7} />
+                      </a>
+                    ) : (
+                      <span
+                        aria-label={`${project.name} has no live demo available`}
+                        title="Live demo not available yet"
+                        className="grid h-9 w-9 cursor-not-allowed place-items-center rounded-full border border-[var(--border)] text-current opacity-30"
+                      >
+                        <ExternalLink size={16} strokeWidth={1.7} />
+                      </span>
+                    )}
                   </div>
                 </div>
-              </motion.article>
-            );
-          })}
+              </div>
+            </motion.article>
+          ))}
+        </div>
+
+        {/* Bottom Footer */}
+        <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <p className="muted text-sm">
+            More experiments, more things to learn.
+          </p>
+
+          <Link
+            href="/projects"
+            className="inline-flex w-full items-center justify-center gap-2 rounded-full border border-[var(--border)] px-5 py-3 text-sm font-semibold transition-all hover:border-[#9303C5] hover:text-[#b026e8] sm:w-auto"
+          >
+            View all projects
+            <ArrowRight size={16} />
+          </Link>
         </div>
       </div>
     </section>
   );
 }
+

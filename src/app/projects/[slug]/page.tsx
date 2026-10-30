@@ -1,34 +1,337 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowLeft, ArrowUpRight, CheckCircle2, ExternalLink, Github, Lightbulb, Target, Wrench } from "lucide-react";
+import {
+  ArrowLeft,
+  ArrowUpRight,
+  CheckCircle2,
+  ExternalLink,
+  Github,
+  Lightbulb,
+  Target,
+  Wrench,
+} from "lucide-react";
+
 import { projects, getProjectBySlug } from "@/data/projects";
 import { SectionHeading } from "@/components/section-heading";
 
-type Props = { params: Promise<{ slug: string }> };
-export function generateStaticParams() { return projects.map((project) => ({ slug: project.slug })); }
+type Props = {
+  params: Promise<{ slug: string }>;
+};
+
+export function generateStaticParams() {
+  return projects.map((project) => ({
+    slug: project.slug,
+  }));
+}
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { slug } = await params; const project = getProjectBySlug(slug);
-  return project ? { title: `${project.name} | Projects | Mohosenat Jahan`, description: project.description } : { title: "Project Not Found | Mohosenat Jahan" };
+  const { slug } = await params;
+  const project = getProjectBySlug(slug);
+
+  return project
+    ? {
+        title: `${project.name} | Projects | Mohosenat Jahan`,
+        description: project.description,
+      }
+    : {
+        title: "Project Not Found | Mohosenat Jahan",
+      };
 }
 
 export default async function ProjectDetailPage({ params }: Props) {
-  const { slug } = await params; const project = getProjectBySlug(slug); if (!project) notFound();
-  const Icon = project.icon;
-  return <main className="pb-20">
-    <section className="relative overflow-hidden border-b border-[var(--border)]"><div className="soft-glow pointer-events-none absolute inset-0 opacity-80" /><div className="container-width relative py-16 sm:py-24">
-      <Link href="/#projects" className="inline-flex items-center gap-2 text-sm muted hover:text-[var(--foreground)]"><ArrowLeft size={16}/> Back to all projects</Link>
-      <div className="mt-12 grid items-center gap-10 lg:grid-cols-[1.2fr_.8fr]"><div><p className="section-kicker">{project.number} / {project.label}</p><h1 className="mt-5 text-4xl font-semibold tracking-tight sm:text-5xl lg:text-6xl">{project.name}<span className="gradient-text">.</span></h1><p className="mt-6 max-w-2xl text-base leading-8 muted sm:text-lg">{project.description}</p><div className="mt-7 flex flex-wrap gap-3">{project.live && <a href={project.live} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-[#9303C5] to-[#D946EF] px-5 py-3 text-sm font-semibold text-white">Visit live site <ExternalLink size={15}/></a>}<a href={project.repo} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-full border border-[var(--border)] px-5 py-3 text-sm font-semibold hover:border-[#9303C5]"><Github size={16}/> View source code <ArrowUpRight size={14}/></a></div></div>
-      <div className="gradient-border relative flex min-h-[260px] items-center justify-center overflow-hidden rounded-[2rem] bg-[#0b0711] p-10 sm:min-h-[320px]"><div className="soft-glow absolute inset-0"/><div className="absolute inset-0 opacity-20" style={{backgroundImage:"linear-gradient(rgba(255,255,255,.08) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.08) 1px, transparent 1px)",backgroundSize:"32px 32px"}}/><div className="relative grid h-28 w-28 place-items-center rounded-[2rem] border border-white/15 bg-white/[.04] text-[#e879f9]"><Icon size={52} strokeWidth={1.2}/></div><span className="absolute bottom-5 left-6 text-xs tracking-[.2em] text-white/50">PROJECT OVERVIEW</span></div></div>
-      <div className="mt-12 flex flex-wrap gap-2">{project.stack.map((item) => <span key={item} className="rounded-full border border-[var(--border)] bg-[var(--surface)] px-4 py-2 text-xs muted">{item}</span>)}</div>
-    </div></section>
-    <section className="section-space"><div className="container-width grid gap-12 lg:grid-cols-[1fr_300px]"><div>
-      <SectionHeading kicker="About the project" title={<>The idea behind <span className="gradient-text">{project.name}.</span></>}/><p className="max-w-3xl text-base leading-8 muted">{project.overview}</p>
-      <div className="mt-8 grid gap-4 sm:grid-cols-2"><div className="surface rounded-2xl p-5"><span className="mb-3 inline-flex rounded-xl bg-[#9303C5]/10 p-3 text-[#b026e8]"><Target size={20}/></span><h3 className="font-semibold">My role</h3><p className="mt-2 text-sm leading-6 muted">{project.role}</p></div><div className="surface rounded-2xl p-5"><span className="mb-3 inline-flex rounded-xl bg-[#9303C5]/10 p-3 text-[#b026e8]"><Wrench size={20}/></span><h3 className="font-semibold">Tech stack</h3><p className="mt-2 text-sm leading-6 muted">{project.stack.join(" · ")}</p></div></div>
-      <div className="mt-16"><SectionHeading kicker="What it includes" title="Key features"/><div className="grid gap-4 sm:grid-cols-2">{project.features.map((item) => <div key={item} className="flex gap-3 rounded-2xl border border-[var(--border)] p-5"><CheckCircle2 size={19} className="mt-0.5 shrink-0 text-[#b026e8]"/><p className="text-sm leading-6 muted">{item}</p></div>)}</div></div>
-      <div className="mt-16 grid gap-12 md:grid-cols-2"><div><SectionHeading kicker="Problem solving" title="Challenges"/><ul className="space-y-4">{project.challenges.map((item) => <li key={item} className="flex gap-3 text-sm leading-7 muted"><span className="mt-3 h-1.5 w-1.5 shrink-0 rounded-full bg-[#b026e8]"/>{item}</li>)}</ul></div><div><SectionHeading kicker="What I gained" title="Key learnings"/><ul className="space-y-4">{project.learnings.map((item) => <li key={item} className="flex gap-3 text-sm leading-7 muted"><span className="mt-3 h-1.5 w-1.5 shrink-0 rounded-full bg-[#f472b6]"/>{item}</li>)}</ul></div></div>
-      <div className="mt-16 gradient-border rounded-3xl bg-[var(--surface)] p-6 sm:p-8"><span className="inline-flex rounded-xl bg-[#9303C5]/10 p-3 text-[#b026e8]"><Lightbulb size={21}/></span><h2 className="mt-4 text-2xl font-semibold">What I would improve next</h2><ul className="mt-5 space-y-3">{project.next.map((item) => <li key={item} className="flex gap-3 text-sm leading-7 muted"><span className="mt-3 h-1.5 w-1.5 shrink-0 rounded-full bg-[#b026e8]"/>{item}</li>)}</ul></div>
-    </div><aside className="h-fit rounded-3xl border border-[var(--border)] bg-[var(--surface)] p-6 lg:sticky lg:top-28"><p className="section-kicker">Project links</p><h2 className="mt-3 text-xl font-semibold">Explore the work</h2><p className="mt-3 text-sm leading-6 muted">Review the source code or open the live version where available.</p><div className="mt-6 space-y-3">{project.live ? <a href={project.live} target="_blank" rel="noreferrer" className="flex items-center justify-between rounded-xl bg-gradient-to-r from-[#9303C5] to-[#D946EF] px-4 py-3 text-sm font-semibold text-white">Live website <ExternalLink size={15}/></a> : <p className="rounded-xl border border-[var(--border)] px-4 py-3 text-xs muted">Live demo not added yet.</p>}<a href={project.repo} target="_blank" rel="noreferrer" className="flex items-center justify-between rounded-xl border border-[var(--border)] px-4 py-3 text-sm font-semibold hover:border-[#9303C5]">GitHub repository <Github size={16}/></a><Link href="/#projects" className="flex items-center justify-between rounded-xl border border-[var(--border)] px-4 py-3 text-sm font-semibold hover:border-[#9303C5]">All projects <ArrowLeft size={15}/></Link></div></aside></div></section>
-    <section className="container-width pb-10"><div className="gradient-border rounded-3xl bg-[var(--surface)] p-7 sm:flex sm:items-center sm:justify-between sm:p-9"><div><p className="section-kicker">Have a project in mind?</p><h2 className="mt-3 text-2xl font-semibold">Let’s build something useful.</h2></div><Link href="/#contact" className="mt-6 inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-[#9303C5] to-[#D946EF] px-5 py-3 text-sm font-semibold text-white sm:mt-0">Contact me <ArrowUpRight size={16}/></Link></div></section>
-  </main>;
+  const { slug } = await params;
+  const project = getProjectBySlug(slug);
+
+  if (!project) notFound();
+
+  return (
+    <main className="pb-20">
+      {/* Hero Section */}
+      <section className="relative overflow-hidden border-b border-[var(--border)]">
+        <div className="soft-glow pointer-events-none absolute inset-0 opacity-80" />
+
+        <div className="container-width relative py-16 sm:py-24">
+          <Link
+            href="/#projects"
+            className="inline-flex items-center gap-2 text-sm muted hover:text-[var(--foreground)]"
+          >
+            <ArrowLeft size={16} />
+            Back to all projects
+          </Link>
+
+          <div className="mt-12 grid items-center gap-10 lg:grid-cols-[1.2fr_.8fr]">
+            {/* Project Information */}
+            <div>
+              <p className="section-kicker">
+                {project.number} / {project.label}
+              </p>
+
+              <h1 className="mt-5 text-4xl font-semibold tracking-tight sm:text-5xl lg:text-6xl">
+                {project.name}
+                <span className="gradient-text">.</span>
+              </h1>
+
+              <p className="mt-6 max-w-2xl text-base leading-8 muted sm:text-lg">
+                {project.description}
+              </p>
+
+              <div className="mt-7 flex flex-wrap gap-3">
+                {project.live && (
+                  <a
+                    href={project.live}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-[#9303C5] to-[#D946EF] px-5 py-3 text-sm font-semibold text-white"
+                  >
+                    Visit live site
+                    <ExternalLink size={15} />
+                  </a>
+                )}
+
+                <a
+                  href={project.repo}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center gap-2 rounded-full border border-[var(--border)] px-5 py-3 text-sm font-semibold hover:border-[#9303C5]"
+                >
+                  <Github size={16} />
+                  View source code
+                  <ArrowUpRight size={14} />
+                </a>
+              </div>
+            </div>
+
+            {/* Project Screenshot */}
+            <div className="group relative overflow-hidden rounded-2xl border border-[var(--border)] bg-[var(--surface)]">
+              <div className="relative aspect-[16/10] w-full">
+                <Image
+                  src={project.image}
+                  alt={`${project.name} project screenshot`}
+                  fill
+                  priority
+                  sizes="(max-width: 768px) 100vw, 800px"
+                  className="object-cover object-top transition-transform duration-500 group-hover:scale-[1.02]"
+                />
+              </div>
+
+              <div className="flex items-center justify-between gap-3 border-t border-[var(--border)] px-4 py-3">
+                <span className="text-sm font-medium">{project.name}</span>
+                <span className="text-xs text-[#b026e8]">
+                  Project Preview
+                </span>
+              </div>
+            </div>
+          </div>
+
+          {/* Tech Stack */}
+          <div className="mt-12 flex flex-wrap gap-2">
+            {project.stack.map((item) => (
+              <span
+                key={item}
+                className="rounded-full border border-[var(--border)] bg-[var(--surface)] px-4 py-2 text-xs muted"
+              >
+                {item}
+              </span>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Project Details */}
+      <section className="section-space">
+        <div className="container-width grid gap-12 lg:grid-cols-[1fr_300px]">
+          <div>
+            <SectionHeading
+              kicker="About the project"
+              title={
+                <>
+                  The idea behind{" "}
+                  <span className="gradient-text">{project.name}.</span>
+                </>
+              }
+            />
+
+            <p className="max-w-3xl text-base leading-8 muted">
+              {project.overview}
+            </p>
+
+            <div className="mt-8 grid gap-4 sm:grid-cols-2">
+              <div className="surface rounded-2xl p-5">
+                <span className="mb-3 inline-flex rounded-xl bg-[#9303C5]/10 p-3 text-[#b026e8]">
+                  <Target size={20} />
+                </span>
+                <h3 className="font-semibold">My role</h3>
+                <p className="mt-2 text-sm leading-6 muted">
+                  {project.role}
+                </p>
+              </div>
+
+              <div className="surface rounded-2xl p-5">
+                <span className="mb-3 inline-flex rounded-xl bg-[#9303C5]/10 p-3 text-[#b026e8]">
+                  <Wrench size={20} />
+                </span>
+                <h3 className="font-semibold">Tech stack</h3>
+                <p className="mt-2 text-sm leading-6 muted">
+                  {project.stack.join(" · ")}
+                </p>
+              </div>
+            </div>
+
+            {/* Features */}
+            <div className="mt-16">
+              <SectionHeading kicker="What it includes" title="Key features" />
+
+              <div className="grid gap-4 sm:grid-cols-2">
+                {project.features.map((item) => (
+                  <div
+                    key={item}
+                    className="flex gap-3 rounded-2xl border border-[var(--border)] p-5"
+                  >
+                    <CheckCircle2
+                      size={19}
+                      className="mt-0.5 shrink-0 text-[#b026e8]"
+                    />
+                    <p className="text-sm leading-6 muted">{item}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Challenges and Learnings */}
+            <div className="mt-16 grid gap-12 md:grid-cols-2">
+              <div>
+                <SectionHeading
+                  kicker="Problem solving"
+                  title="Challenges"
+                />
+
+                <ul className="space-y-4">
+                  {project.challenges.map((item) => (
+                    <li
+                      key={item}
+                      className="flex gap-3 text-sm leading-7 muted"
+                    >
+                      <span className="mt-3 h-1.5 w-1.5 shrink-0 rounded-full bg-[#b026e8]" />
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <div>
+                <SectionHeading
+                  kicker="What I gained"
+                  title="Key learnings"
+                />
+
+                <ul className="space-y-4">
+                  {project.learnings.map((item) => (
+                    <li
+                      key={item}
+                      className="flex gap-3 text-sm leading-7 muted"
+                    >
+                      <span className="mt-3 h-1.5 w-1.5 shrink-0 rounded-full bg-[#f472b6]" />
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+
+            {/* Future Improvements */}
+            <div className="mt-16 gradient-border rounded-3xl bg-[var(--surface)] p-6 sm:p-8">
+              <span className="inline-flex rounded-xl bg-[#9303C5]/10 p-3 text-[#b026e8]">
+                <Lightbulb size={21} />
+              </span>
+
+              <h2 className="mt-4 text-2xl font-semibold">
+                What I would improve next
+              </h2>
+
+              <ul className="mt-5 space-y-3">
+                {project.next.map((item) => (
+                  <li
+                    key={item}
+                    className="flex gap-3 text-sm leading-7 muted"
+                  >
+                    <span className="mt-3 h-1.5 w-1.5 shrink-0 rounded-full bg-[#b026e8]" />
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+
+          {/* Project Links Sidebar */}
+          <aside className="h-fit rounded-3xl border border-[var(--border)] bg-[var(--surface)] p-6 lg:sticky lg:top-28">
+            <p className="section-kicker">Project links</p>
+
+            <h2 className="mt-3 text-xl font-semibold">Explore the work</h2>
+
+            <p className="mt-3 text-sm leading-6 muted">
+              Review the source code or open the live version where available.
+            </p>
+
+            <div className="mt-6 space-y-3">
+              {project.live ? (
+                <a
+                  href={project.live}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="flex items-center justify-between rounded-xl bg-gradient-to-r from-[#9303C5] to-[#D946EF] px-4 py-3 text-sm font-semibold text-white"
+                >
+                  Live website
+                  <ExternalLink size={15} />
+                </a>
+              ) : (
+                <p className="rounded-xl border border-[var(--border)] px-4 py-3 text-xs muted">
+                  Live demo not added yet.
+                </p>
+              )}
+
+              <a
+                href={project.repo}
+                target="_blank"
+                rel="noreferrer"
+                className="flex items-center justify-between rounded-xl border border-[var(--border)] px-4 py-3 text-sm font-semibold hover:border-[#9303C5]"
+              >
+                GitHub repository
+                <Github size={16} />
+              </a>
+
+              <Link
+                href="/#projects"
+                className="flex items-center justify-between rounded-xl border border-[var(--border)] px-4 py-3 text-sm font-semibold hover:border-[#9303C5]"
+              >
+                All projects
+                <ArrowLeft size={15} />
+              </Link>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      {/* Contact CTA */}
+      <section className="container-width pb-10">
+        <div className="gradient-border rounded-3xl bg-[var(--surface)] p-7 sm:flex sm:items-center sm:justify-between sm:p-9">
+          <div>
+            <p className="section-kicker">Have a project in mind?</p>
+            <h2 className="mt-3 text-2xl font-semibold">
+              Let’s build something useful.
+            </h2>
+          </div>
+
+          <Link
+            href="/#contact"
+            className="mt-6 inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-[#9303C5] to-[#D946EF] px-5 py-3 text-sm font-semibold text-white sm:mt-0"
+          >
+            Contact me
+            <ArrowUpRight size={16} />
+          </Link>
+        </div>
+      </section>
+    </main>
+  );
 }
