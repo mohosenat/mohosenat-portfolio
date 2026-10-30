@@ -112,7 +112,7 @@ export const projects = [
       "Passing data through props and rendering lists",
       "Improving project structure and documentation",
     ],
-    next: [
+   next: [
   "Add category-based search and filtering to help developers discover relevant tools",
   "Introduce a favorites feature so users can save useful developer resources",
   "Create dedicated tool detail pages with descriptions, use cases, and official links",
