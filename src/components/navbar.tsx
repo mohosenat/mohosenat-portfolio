@@ -103,7 +103,7 @@ export function Navbar() {
               onClick={closeMenu}
               className="mt-2 inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#9303C5] to-[#D946EF] px-4 py-3 text-sm font-semibold text-white"
             >
-              Let&apos;s talk
+              Hire me
               <ArrowUpRight size={16} />
             </Link>
           </div>
