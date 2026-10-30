@@ -1,3 +1,4 @@
+
 "use client";
 
 import Image from "next/image";
@@ -29,11 +30,12 @@ export function Projects() {
             </>
           }
           description="A selection of projects built through experimentation, problem-solving, and continuous learning."
+           centered
         />
 
         {/* Project Cards */}
-        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {projects.slice(0, 3).map((project, index) => (
+        <div className="grid w-full grid-cols-1 gap-6 sm:grid-cols-2">
+          {projects.map((project, index) => (
             <motion.article
               key={project.slug}
               initial={{ opacity: 0, y: 20 }}
@@ -41,21 +43,21 @@ export function Projects() {
               viewport={{ once: true, amount: 0.15 }}
               transition={{
                 duration: 0.45,
-                delay: index * 0.08,
+                delay: (index % 2) * 0.08,
               }}
-              className="group flex min-w-0 flex-col overflow-hidden rounded-2xl border border-[var(--border)] bg-[var(--surface)] transition-all duration-300 hover:-translate-y-1 hover:border-[#9303C5]/60 hover:shadow-lg hover:shadow-purple-950/10"
+              className="group gradient-border flex min-w-0 flex-col overflow-hidden rounded-2xl bg-[var(--surface)] transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-purple-950/10"
             >
               {/* Project Screenshot */}
               <Link
                 href={`/projects/${project.slug}`}
                 aria-label={`View ${project.name} details`}
-                className="relative block aspect-[1.48/1] overflow-hidden border-b border-[var(--border)]"
+                className="relative block aspect-[1.85/1] overflow-hidden border-b border-[var(--border)]"
               >
                 <Image
                   src={project.image}
                   alt={`${project.name} website screenshot`}
                   fill
-                  sizes="(max-width: 639px) 100vw, (max-width: 1023px) 50vw, 33vw"
+                  sizes="(max-width: 639px) 100vw, 50vw"
                   className="object-cover object-top transition-transform duration-500 group-hover:scale-[1.035]"
                 />
 
@@ -68,21 +70,21 @@ export function Projects() {
 
                 {/* Project Number */}
                 <span className="absolute right-3 top-3 z-10 rounded-full border border-white/20 bg-black/50 px-2.5 py-1.5 text-[9px] font-medium tracking-wider text-white backdrop-blur-sm">
-                  PROJECT / {project.number}
+                  {project.number}
                 </span>
               </Link>
 
               {/* Project Information */}
-              <div className="flex flex-1 flex-col p-5">
+              <div className="flex flex-1 flex-col p-4">
                 <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#b026e8]">
                   {project.label}
                 </p>
 
-                <h3 className="mt-3 text-xl font-semibold tracking-tight">
+                <h3 className="mt-2 text-lg font-semibold tracking-tight sm:text-xl">
                   {project.name}
                 </h3>
 
-                <p className="muted mt-3 min-h-[66px] text-sm leading-6">
+                <p className="muted mt-2 min-h-[48px] text-sm leading-6">
                   {project.description}
                 </p>
 
@@ -99,7 +101,7 @@ export function Projects() {
                 </div>
 
                 {/* Footer Actions */}
-                <div className="mt-auto flex items-center justify-between gap-3 border-t border-[var(--border)] pt-4 mt-5">
+                <div className="mt-auto mt-5 flex items-center justify-between gap-3 border-t border-[var(--border)] pt-4">
                   <Link
                     href={`/projects/${project.slug}`}
                     className="inline-flex min-w-0 items-center gap-1.5 text-xs font-semibold transition-colors hover:text-[#b026e8]"
@@ -124,7 +126,7 @@ export function Projects() {
                       <Github size={16} strokeWidth={1.7} />
                     </a>
 
-                    {/* Live Demo: consistent position on every card */}
+                    {/* Live Demo */}
                     {project.live ? (
                       <a
                         href={project.live}
@@ -162,7 +164,6 @@ export function Projects() {
             href="/projects"
             className="inline-flex w-full items-center justify-center gap-2 rounded-full border border-[var(--border)] px-5 py-3 text-sm font-semibold transition-all hover:border-[#9303C5] hover:text-[#b026e8] sm:w-auto"
           >
-            View all projects
             <ArrowRight size={16} />
           </Link>
         </div>
@@ -170,4 +171,5 @@ export function Projects() {
     </section>
   );
 }
+
 
